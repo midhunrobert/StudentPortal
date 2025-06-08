@@ -1,0 +1,36 @@
+﻿@model IEnumerable<string>
+
+@{
+    ViewData["Title"] = "Batches";
+}
+
+<div class="container py-5">
+    <button type="button" class="btn btn-outline-light mb-3" onclick="history.back();">
+        &larr; Back
+    </button>
+    <h2 class="mb-4 text-primary border-bottom pb-2">Available Batches</h2>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+        @foreach (var batch in Model)
+        {
+            <div class="col">
+                <a href="@Url.Action("AssignmentsByBatch", "Faculty", new { batch = batch })" class="text-decoration-none">
+                    <div class="card h-100 shadow-sm border-0 hover-shadow">
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-dark">@batch</h5>
+                            <p class="card-text text-muted">Click to view assignments</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .hover-shadow:hover {
+        box-shadow: 0 0.75rem 1.25rem rgba(0, 0, 0, 0.1);
+        transform: scale(1.02);
+        transition: 0.2s ease-in-out;
+    }
+</style>

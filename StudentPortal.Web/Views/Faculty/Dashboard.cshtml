@@ -1,0 +1,113 @@
+﻿@{
+    ViewData["Title"] = "Faculty Dashboard";
+}
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+    .dashboard-wrapper {
+        max-width: 1100px;
+        margin: 60px auto;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .dashboard-header {
+        text-align: center;
+        margin-bottom: 40px;
+        position: relative;
+    }
+
+        .dashboard-header h2 {
+            font-weight: 600;
+            font-size: 2rem;
+        }
+
+    /* Profile link on top-right */
+    .profile-link {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-weight: 600;
+        color: #4e73df;
+        text-decoration: none;
+        font-size: 1rem;
+        background-color: #f1f5ff;
+        padding: 8px 12px;
+        border-radius: 6px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+        .profile-link:hover {
+            color: #2c5282;
+            background-color: #e2e8ff;
+        }
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 25px;
+    }
+
+    .dashboard-card {
+        padding: 30px 20px;
+        background-color: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+        transition: all 0.2s ease-in-out;
+        text-decoration: none;
+        color: #212529;
+    }
+
+        .dashboard-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+            text-decoration: none;
+        }
+
+        .dashboard-card i {
+            font-size: 2rem;
+            margin-bottom: 12px;
+            color: #4e73df;
+        }
+
+        .dashboard-card .card-label {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-top: 8px;
+        }
+</style>
+
+<div class="dashboard-wrapper">
+    <div class="dashboard-header">
+        <h2>Faculty Dashboard</h2>
+
+        <!-- Profile Link -->
+        <a asp-controller="Faculty" asp-action="EditProfile" asp-route-id="@ViewBag.FacultyId" class="profile-link" title="View Profile">
+            👤 
+        </a>
+    </div>
+
+    <div class="dashboard-grid">
+        <a asp-controller="Faculty" asp-action="Students" class="dashboard-card">
+            <i class="fas fa-users"></i>
+            <div class="card-label">View Students</div>
+        </a>
+
+        <a asp-controller="Faculty" asp-action="CreateAssignment" class="dashboard-card">
+            <i class="fas fa-tasks"></i>
+            <div class="card-label">Create Assignment</div>
+        </a>
+
+        <a asp-controller="Faculty" asp-action="Batches" class="dashboard-card">
+            <i class="fas fa-clipboard-check"></i>
+            <div class="card-label">View All Batches</div>
+        </a>
+
+        <a asp-controller="Faculty" asp-action="PerformanceChart" class="dashboard-card">
+            <i class="fas fa-chart-pie"></i>
+            <div class="card-label">Performance Charts</div>
+        </a>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<StudentPortal.Models.DTOs.Faculty.AssessmentScoreDto>
+
+@{
+    ViewBag.Title = "View Scores";
+    var totalScore = Model.Sum(x => x.Score);
+}
+
+<h3>Scores for Submission: @ViewBag.SubmissionId</h3>
+
+@if (!Model.Any())
+{
+    <p>No scores available for this submission.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Criterion</th>
+                <th>Score</th>
+                <th>Comments</th>
+                <th>Scored At</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.CriterionName</td>
+                    <td>@item.Score</td>
+                    <td>@item.Comments</td>
+                    <td>@item.ScoredAt?.ToString("g")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h5>Total Score: @totalScore</h5>
+}

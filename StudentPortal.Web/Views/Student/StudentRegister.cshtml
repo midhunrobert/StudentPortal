@@ -1,0 +1,126 @@
+@model StudentPortal.Models.DTOs.Auth.RegisterDto
+
+@{
+    ViewData["Title"] = "Student Registration";
+}
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+    .register-wrapper {
+        max-width: 500px;
+        margin: 60px auto;
+        padding: 30px;
+        border-radius: 12px;
+        background-color: #ffffff;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        font-family: 'Poppins', sans-serif;
+    }
+
+        .register-wrapper h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 600;
+            font-size: 1.8rem;
+        }
+
+    .form-label {
+        font-weight: 500;
+        margin-bottom: 6px;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 10px;
+        border: 1px solid #ced4da;
+        transition: border-color 0.2s;
+    }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: none;
+        }
+
+    .btn-register {
+        background-color: #28a745;
+        color: #fff;
+        font-weight: 600;
+        padding: 10px 0;
+        width: 100%;
+        border-radius: 8px;
+        border: none;
+        transition: background-color 0.3s;
+    }
+
+        .btn-register:hover {
+            background-color: #218838;
+        }
+
+    .text-danger {
+        font-size: 0.85rem;
+    }
+
+    .alert-danger {
+        margin-top: 15px;
+        font-size: 0.9rem;
+    }
+</style>
+
+<div class="register-wrapper">
+    <h2>Student Registration</h2>
+
+    <form asp-action="StudentRegister" method="post" novalidate>
+        <input type="hidden" name="Role" value="Student" />
+
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" placeholder="Enter full name" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" placeholder="Enter email" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Password" class="form-label"></label>
+            <input asp-for="Password" type="password" class="form-control" placeholder="Enter password" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Batch" class="form-label"></label>
+            <select asp-for="Batch" class="form-select">
+                <option value="">-- Select Batch --</option>
+                <option value="B1">B1</option>
+                <option value="B2">B2</option>
+                <option value="B3">B3</option>
+                <option value="B4">B4</option>
+            </select>
+            <span asp-validation-for="Batch" class="text-danger"></span>
+        </div>
+
+
+        <div class="mb-4">
+            <label asp-for="Dob" class="form-label"></label>
+            <input asp-for="Dob" type="date" class="form-control" />
+            <span asp-validation-for="Dob" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn-register">Register</button>
+    </form>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

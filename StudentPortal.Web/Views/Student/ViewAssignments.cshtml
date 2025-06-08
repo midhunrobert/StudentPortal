@@ -1,0 +1,158 @@
+﻿@model IEnumerable<StudentPortal.Models.DTOs.Faculty.AssignmentDto>
+@{
+    ViewData["Title"] = "Your Assignments";
+}
+
+<style>
+    .assignments-table {
+        border-collapse: separate;
+        border-spacing: 0 10px;
+        width: 100%;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+        .assignments-table thead tr {
+            background-color: #f8f9fa;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .assignments-table tbody tr {
+            background-color: #ffffff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            transition: background-color 0.3s ease;
+            border-radius: 10px;
+        }
+
+            .assignments-table tbody tr:hover {
+                background-color: #f1f5ff;
+            }
+
+        .assignments-table td,
+        .assignments-table th {
+            padding: 15px 20px;
+            vertical-align: middle;
+        }
+
+            .assignments-table td strong {
+                font-weight: 600;
+                font-size: 1rem;
+                color: #343a40;
+            }
+
+    .badge.bg-secondary {
+        background-color: #6c757d !important;
+        font-size: 0.85rem;
+        padding: 6px 12px;
+        border-radius: 50px;
+    }
+
+    .btn-link.btn-sm {
+        color: #4e73df;
+        font-weight: 600;
+        padding: 0;
+        font-size: 0.9rem;
+    }
+
+        .btn-link.btn-sm:hover {
+            color: #2c5282;
+            text-decoration: underline;
+        }
+
+    .badge.bg-success {
+        font-size: 0.85rem;
+        padding: 6px 14px;
+        border-radius: 50px;
+    }
+
+    .btn-success.btn-sm {
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding: 6px 14px;
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-success.btn-sm:hover {
+            background-color: #1e7e34;
+        }
+
+    .text-center {
+        white-space: nowrap;
+    }
+
+    .alert-info {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #31708f;
+        background-color: #d9edf7;
+        border-color: #bce8f1;
+        padding: 15px 20px;
+        border-radius: 8px;
+    }
+</style>
+
+<div class="container mt-4">
+    <button type="button" class="btn btn-outline-light mb-3" onclick="history.back();">
+        &larr; Back
+    </button>
+    <h3 class="mb-4" style="font-weight:700; color:#343a40;">Your Assignments</h3>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            No assignments available for your batch.
+        </div>
+    }
+    else
+    {
+        <table class="assignments-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Due Date</th>
+                    <th>File</th>
+                    <th>Created At</th>
+                    <th class="text-center">Status / Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><strong>@item.Title</strong></td>
+                        <td>@item.Description</td>
+                        <td>
+                            <span class="badge bg-secondary">
+                                @item.DueDate.ToString("dd MMM yyyy")
+                            </span>
+                        </td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.FilePath))
+                            {
+                                <a href="@Url.Content(item.FilePath)" target="_blank" class="btn btn-link btn-sm">Download</a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">N/A</span>
+                            }
+                        </td>
+                        <td>@item.CreatedAt?.ToString("g")</td>
+                        <td class="text-center">
+                            
+                            <a asp-controller="Student" asp-action="SubmitAssignment" asp-route-assignmentId="@item.AssignmentId" class="btn btn-success btn-sm">
+                                Submit / Resubmit
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

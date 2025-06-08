@@ -1,0 +1,144 @@
+﻿@{
+    ViewData["Title"] = "Student Dashboard";
+    var studentId = Context.Session.GetString("StudentId");
+    var studentName = Context.Session.GetString("StudentName"); 
+
+}
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+    .dashboard-wrapper {
+        font-family: 'Inter', sans-serif;
+        padding: 40px 20px;
+        max-width: 1100px;
+        margin: auto;
+        position: relative;
+    }
+
+    .dashboard-header {
+        text-align: center;
+        margin-bottom: 40px;
+        position: relative;
+    }
+
+        .dashboard-header h2 {
+            font-weight: 600;
+            font-size: 2rem;
+        }
+
+        .dashboard-header p {
+            color: #6c757d;
+            font-size: 1rem;
+        }
+
+    .profile-link {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-weight: 600;
+        color: #4e73df;
+        text-decoration: none;
+        font-size: 1rem;
+        background-color: #f1f5ff;
+        padding: 8px 12px;
+        border-radius: 6px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+        .profile-link:hover {
+            color: #2c5282;
+            background-color: #e2e8ff;
+        }
+
+    .dashboard-cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 24px;
+    }
+
+    .card-box {
+        background-color: #ffffff;
+        border-radius: 12px;
+        padding: 25px;
+        text-align: center;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .card-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+        }
+
+    .card-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .card-text {
+        font-size: 0.95rem;
+        color: #6c757d;
+        margin-bottom: 20px;
+    }
+
+    .btn-dashboard {
+        padding: 8px 20px;
+        border-radius: 6px;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-block;
+        transition: background 0.2s;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .btn-success {
+        background-color: #28a745;
+        color: #fff;
+    }
+
+    .btn-info {
+        background-color: #17a2b8;
+        color: #fff;
+    }
+
+    .btn-dashboard:hover {
+        opacity: 0.9;
+    }
+</style>
+
+<div class="dashboard-wrapper">
+    <div class="dashboard-header">
+        <h2>Welcome, @studentName </h2>
+        <p>Student ID: <strong>@studentId</strong></p>
+        <a asp-controller="Student" asp-action="EditStudent" asp-route-id="@studentId" class="profile-link" title="View Profile">
+            👤 Profile
+        </a>
+    </div>
+
+    <div class="dashboard-cards">
+        <div class="card-box">
+            <div class="card-title">Assignments</div>
+            <div class="card-text">Browse and submit your assignments.</div>
+            <a href="@Url.Action("ViewAssignments", "Student")" class="btn-dashboard btn-primary">View Assignments</a>
+        </div>
+
+        <div class="card-box">
+            <div class="card-title">Submissions</div>
+            <div class="card-text">View your past submissions.</div>
+            <a href="@Url.Action("Submissions", "Student")" class="btn-dashboard btn-success">View Submissions</a>
+        </div>
+
+        <div class="card-box">
+            <div class="card-title">Performance</div>
+            <div class="card-text">Check your grades and progress.</div>
+            <a href="@Url.Action("Performance", "Student")" class="btn-dashboard btn-info">View Performance</a>
+        </div>
+    </div>
+</div>

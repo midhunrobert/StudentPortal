@@ -1,0 +1,82 @@
+﻿@model IEnumerable<StudentPortal.Models.DTOs.Student.StudentSubmissionDto>
+
+@{
+    ViewData["Title"] = "My Submissions";
+}
+
+<div class="container mt-5">
+    <button type="button" class="btn btn-outline-light mb-3" onclick="history.back();">
+        &larr; Back
+    </button>
+    <h3 class="mb-4">My Assignment Submissions</h3>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">You haven't submitted any assignments yet.</div>
+    }
+    else
+    {
+        <table class="table table-hover table-striped align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Assignment</th>
+                    <th>Submitted On</th>
+                    <th>File</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.AssignmentTitle</td>
+                        <td>@(item.SubmissionDate?.ToString("f") ?? "Not Submitted")</td>
+
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.FilePath))
+                            {
+                                <a href="@Url.Content(item.FilePath)" target="_blank" class="btn btn-outline-primary btn-sm">
+                                    Download
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">N/A</span>
+                            }
+                        </td>
+
+                        <td>
+                            @if (item.IsScored == 1)
+                            {
+                                <span class="badge bg-success">Scored</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning text-dark">Pending</span>
+                            }
+                        </td>
+
+                        <td>
+                            @if (item.IsScored == 1)
+                            {
+                                <a asp-controller="Student" asp-action="ViewScores" asp-route-submissionId="@item.SubmissionId"
+                                   class="btn btn-sm btn-info">
+                                    View Scores
+                                </a>
+                            }
+                            else if (!string.IsNullOrEmpty(item.FilePath))
+                            {
+                                <button class="btn btn-sm btn-secondary" disabled>Submitted</button>
+                            }
+                            else
+                            {
+                                <span class="text-muted">N/A</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

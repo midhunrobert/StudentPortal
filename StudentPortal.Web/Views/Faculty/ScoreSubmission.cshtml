@@ -1,0 +1,36 @@
+﻿@model List<StudentPortal.Models.DTOs.Faculty.AssessmentScoreDto>
+<button type="button" class="btn btn-outline-light mb-3" onclick="history.back();">
+    &larr; Back
+</button>
+<h3>Score Submission</h3>
+
+<form asp-action="ScoreSubmission" method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Criterion</th>
+                <th>Score</th>
+                <th>Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td>
+                        @Html.HiddenFor(m => m[i].SubmissionId)
+                        @Html.HiddenFor(m => m[i].CriteriaId)
+                        Criterion ID: @Model[i].CriteriaId
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m[i].Score, new { @class = "form-control", type = "number", min = "0" })
+                    </td>
+                    <td>
+                        @Html.TextBoxFor(m => m[i].Comments, new { @class = "form-control" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary">Save Scores</button>
+</form>

@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Submit Assignment";
+    var assignmentId = ViewBag.AssignmentId;
+}
+
+<h2>Submit Assignment</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+<form asp-action="SubmitAssignment" asp-route-assignmentId="@assignmentId" enctype="multipart/form-data" method="post">
+    <div class="form-group">
+        <label>Select file:</label>
+        <input type="file" name="file" class="form-control" required />
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Submit</button>
+</form>

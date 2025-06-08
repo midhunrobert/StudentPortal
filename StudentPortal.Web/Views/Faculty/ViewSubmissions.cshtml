@@ -1,0 +1,48 @@
+﻿@model IEnumerable<StudentPortal.Models.DTOs.Faculty.SubmissionDto>
+
+<h3>Submissions for Assignment: @ViewBag.AssignmentId</h3>
+
+@if (!Model.Any())
+{
+    <p>No submissions found for this assignment.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Email</th>
+                <th>Submitted At</th>
+                <th>File</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.StudentName</td>
+                    <td>@item.Email</td>
+                    <td>@item.SubmissionDate?.ToString("g")</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.FilePath))
+                        {
+                            <a href="@Url.Content(item.FilePath)" target="_blank">Download</a>
+                        }
+                        else
+                        {
+                            <span>N/A</span>
+                        }
+                    </td>
+                    <td>
+                        <a asp-controller="Faculty" asp-action="ScoreSubmission"
+                           asp-route-submissionId="@item.SubmissionId" class="btn btn-primary btn-sm">
+                            Score
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

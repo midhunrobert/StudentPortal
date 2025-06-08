@@ -1,0 +1,42 @@
+﻿@model IEnumerable<StudentPortal.Models.DTOs.Faculty.AssessmentSummaryDto>
+@{
+    ViewData["Title"] = "Assessments";
+}
+
+<h2 class="mb-4">Assessments for Assignment: <span class="text-primary">@ViewBag.AssignmentTitle</span></h2>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">No assessments have been created for this assignment yet.</div>
+}
+else
+{
+    <div class="row">
+        @foreach (var assessment in Model)
+        {
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-header bg-primary text-white">
+                        <strong>Assessment ID:</strong> @assessment.AssessmentId
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">Criteria</h5>
+                        <ul class="list-group list-group-flush mb-3">
+                            @foreach (var c in assessment.Criteria)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <span>@c.CriterionName</span>
+                                    <span class="badge bg-secondary">Max Score: @c.MaxScore</span>
+                                </li>
+                            }
+                        </ul>
+
+                        <a asp-controller="Faculty" asp-action="EditAssessment" asp-route-id="@assessment.AssessmentId" class="btn btn-sm btn-outline-primary mt-auto">
+                            Edit
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

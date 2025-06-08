@@ -1,0 +1,46 @@
+﻿@model IEnumerable<StudentPortal.Models.DTOs.Faculty.AssessmentScoreDto>
+
+@{
+    ViewData["Title"] = "View Scores";
+    var totalScored = ViewBag.TotalScored ?? 0;
+    var totalMax = ViewBag.TotalMax ?? 0;
+}
+
+<div class="container mt-4">
+    <button type="button" class="btn btn-outline-light mb-3" onclick="history.back();">
+        &larr; Back
+    </button>
+    <h3>Scores for Submission</h3>
+
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Criteria</th>
+                <th>Score</th>
+                <th>Max Score</th>
+                <th>Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.CriterionName</td>
+                    <td>@item.Score</td>
+                    <td>@item.MaxScore</td>
+                    <td>@item.Comments</td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr class="fw-bold">
+                <td>Total</td>
+                <td>@totalScored</td>
+                <td>@totalMax</td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <a asp-action="Submissions" class="btn btn-secondary mt-3">Back to Submissions</a>
+</div>

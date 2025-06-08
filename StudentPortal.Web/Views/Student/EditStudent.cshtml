@@ -1,0 +1,38 @@
+﻿@model StudentPortal.Models.DTOs.Student.StudentDto
+
+<div class="container my-4">
+    <button type="button" class="btn btn-outline-light mb-3" onclick="history.back();">
+        &larr; Back
+    </button>
+
+    <h2>Edit Your Details</h2>
+
+    <form asp-action="EditStudent" method="post">
+        <input type="hidden" asp-for="StudentId" />
+
+        <div class="form-group mb-3">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Batch"></label>
+            <input asp-for="Batch" class="form-control" disabled />
+            <span asp-validation-for="Batch" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Dob"></label>
+            <input asp-for="Dob" type="date" class="form-control" />
+            <span asp-validation-for="Dob" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a asp-action="StudentList" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,118 @@
+﻿@model IEnumerable<StudentPortal.Models.DTOs.Faculty.AssignmentDto>
+
+<style>
+    .btn-custom-primary {
+        background: linear-gradient(135deg, #1e3c72, #2a5298);
+        color: white;
+        border: none;
+        box-shadow: 0 2px 6px rgba(30, 60, 114, 0.4);
+        transition: background 0.3s ease;
+    }
+
+        .btn-custom-primary:hover {
+            background: linear-gradient(135deg, #2a5298, #1e3c72);
+            color: white;
+        }
+
+    .btn-custom-secondary {
+        background: #6c757d;
+        color: white;
+        border: none;
+        box-shadow: 0 2px 6px rgba(108, 117, 125, 0.4);
+        transition: background 0.3s ease;
+    }
+
+        .btn-custom-secondary:hover {
+            background: #5a6268;
+            color: white;
+        }
+
+    .btn-custom-info {
+        background: #17a2b8;
+        color: white;
+        border: none;
+        box-shadow: 0 2px 6px rgba(23, 162, 184, 0.4);
+        transition: background 0.3s ease;
+    }
+
+        .btn-custom-info:hover {
+            background: #138496;
+            color: white;
+        }
+
+    .btn-custom-outline-info {
+        color: #17a2b8;
+        border-color: #17a2b8;
+        transition: background 0.3s ease, color 0.3s ease;
+    }
+
+        .btn-custom-outline-info:hover {
+            background: #17a2b8;
+            color: white;
+            border-color: #17a2b8;
+        }
+</style>
+
+<div class="container my-5">
+    <button type="button" class="btn btn-outline-light mb-3" onclick="history.back();">
+        &larr; Back
+    </button>
+    <h2 class="mb-4">Assignments for Batch: <span class="text-primary">@ViewBag.Batch</span></h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-warning">No assignments found for this batch.</div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">@item.Title</h5>
+                            <p class="card-text text-truncate" title="@item.Description">@item.Description</p>
+
+                            <ul class="list-group list-group-flush mb-3">
+                                <li class="list-group-item p-1"><strong>Due Date:</strong> @item.DueDate.ToString("dd MMM yyyy")</li>
+                                <li class="list-group-item p-1"><strong>Created At:</strong> @item.CreatedAt?.ToString("dd MMM yyyy HH:mm")</li>
+                            </ul>
+
+                            <div class="mb-3">
+                                @if (!string.IsNullOrEmpty(item.FilePath))
+                                {
+                                    <a href="@Url.Content(item.FilePath)" target="_blank" class="btn btn-custom-primary btn-sm" title="Download Assignment File">
+                                        <i class="fas fa-download me-1"></i>Download File
+                                    </a>
+                                }
+                                else
+                                {
+                                    <span class="text-muted fst-italic">No file uploaded</span>
+                                }
+                            </div>
+
+                            <div class="mt-auto d-grid gap-2">
+                                <a asp-controller="Faculty" asp-action="CreateAssessment" asp-route-assignmentId="@item.AssignmentId" class="btn btn-custom-primary btn-sm">
+                                    <i class="fas fa-plus me-1"></i> Add Assessment
+                                </a>
+                                <a asp-controller="Faculty" asp-action="ViewAssessments" asp-route-assignmentId="@item.AssignmentId" class="btn btn-custom-secondary btn-sm">
+                                    <i class="fas fa-list me-1"></i> View Assessments
+                                </a>
+                                <a asp-controller="Faculty" asp-action="ViewSubmissions" asp-route-assignmentId="@item.AssignmentId" class="btn btn-custom-info btn-sm">
+                                    <i class="fas fa-folder-open me-1"></i> View Submissions
+                                </a>
+                                <a asp-controller="Faculty" asp-action="PerformanceChart" asp-route-assignmentId="@item.AssignmentId" class="btn btn-custom-outline-info btn-sm">
+                                    <i class="fas fa-chart-line me-1"></i> Performance Chart
+                                </a>
+                                <a asp-controller="Faculty" asp-action="EditAssignment" asp-route-id="@item.AssignmentId" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit me-1"></i> Edit Assignment
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

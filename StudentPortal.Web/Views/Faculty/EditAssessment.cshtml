@@ -1,0 +1,81 @@
+﻿@model StudentPortal.Models.DTOs.Faculty.AssessmentUpdateDto
+
+@{
+    ViewData["Title"] = "Edit Assessment";
+}
+
+<h2>Edit Assessment</h2>
+
+<form asp-action="EditAssessment" method="post">
+    <input type="hidden" asp-for="AssessmentId" />
+
+    <div class="mb-3">
+        <label asp-for="AssignmentId" class="form-label">Assignment ID</label>
+        <input asp-for="AssignmentId" class="form-control" readonly />
+    </div>
+
+    <h4>Criteria</h4>
+    <table class="table table-bordered" id="criteriaTable">
+        <thead>
+            <tr>
+                <th>Criterion Name</th>
+                <th>Max Score</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Criteria.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <input type="hidden" asp-for="@Model.Criteria[i].CriteriaId" />
+                        <input asp-for="@Model.Criteria[i].CriterionName" class="form-control" />
+                        <span asp-validation-for="@Model.Criteria[i].CriterionName" class="text-danger"></span>
+                    </td>
+                    <td>
+                        <input asp-for="@Model.Criteria[i].MaxScore" type="number" class="form-control" min="1" />
+                        <span asp-validation-for="@Model.Criteria[i].MaxScore" class="text-danger"></span>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm remove-criteria">Remove</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <button type="button" id="addCriteria" class="btn btn-secondary mb-3">Add Criterion</button>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var criteriaIndex = @Model.Criteria.Count;
+
+            $("#addCriteria").click(function () {
+                var newRow = `<tr>
+                    <td>
+                        <input name="Criteria[${criteriaIndex}].CriteriaId" type="hidden" value="0" />
+                        <input name="Criteria[${criteriaIndex}].CriterionName" class="form-control" />
+                    </td>
+                    <td>
+                        <input name="Criteria[${criteriaIndex}].MaxScore" type="number" min="1" class="form-control" />
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm remove-criteria">Remove</button>
+                    </td>
+                </tr>`;
+                $("#criteriaTable tbody").append(newRow);
+                criteriaIndex++;
+            });
+
+            $("#criteriaTable").on("click", ".remove-criteria", function () {
+                $(this).closest("tr").remove();
+            });
+        });
+    </script>
+
+}
+

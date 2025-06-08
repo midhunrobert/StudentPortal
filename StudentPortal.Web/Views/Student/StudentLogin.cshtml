@@ -1,0 +1,121 @@
+@model StudentPortal.Models.DTOs.Auth.LoginDto
+
+@{
+    ViewData["Title"] = "Student Login";
+}
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+    .login-wrapper {
+        max-width: 400px;
+        margin: 60px auto;
+        padding: 30px;
+        border-radius: 12px;
+        background-color: #ffffff;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        font-family: 'Poppins', sans-serif;
+    }
+
+        .login-wrapper h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 600;
+            font-size: 1.8rem;
+        }
+
+    .form-label {
+        font-weight: 500;
+        margin-bottom: 6px;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        padding: 10px;
+        border: 1px solid #ced4da;
+        transition: border-color 0.2s;
+    }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: none;
+        }
+
+    .btn-login {
+        background-color: #007bff;
+        color: #fff;
+        font-weight: 600;
+        padding: 10px 0;
+        width: 100%;
+        border-radius: 8px;
+        border: none;
+        transition: background-color 0.3s;
+    }
+
+        .btn-login:hover {
+            background-color: #0056b3;
+        }
+
+    .register-link {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 0.95rem;
+    }
+
+        .register-link a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+            .register-link a:hover {
+                text-decoration: underline;
+            }
+
+    .text-danger {
+        font-size: 0.85rem;
+    }
+
+    .alert-danger {
+        margin-top: 15px;
+        font-size: 0.9rem;
+    }
+</style>
+
+<div class="login-wrapper">
+    <h2>Student Login</h2>
+
+    <form asp-action="StudentLogin" method="post" novalidate>
+        <input type="hidden" name="role" value="Student" />
+
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" placeholder="Enter email" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Password" class="form-label"></label>
+            <input asp-for="Password" type="password" class="form-control" placeholder="Enter password" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn-login">Login</button>
+
+        <div class="register-link">
+            <span>Don't have an account? </span>
+            <a asp-controller="Student" asp-action="StudentRegister">Register here</a>
+        </div>
+    </form>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

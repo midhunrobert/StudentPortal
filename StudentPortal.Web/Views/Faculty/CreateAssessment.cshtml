@@ -1,0 +1,76 @@
+﻿@model StudentPortal.Models.DTOs.Faculty.AssessmentCreateDto
+@{
+    ViewData["Title"] = "Create Assessment";
+}
+
+<h2 class="mb-4">Create Assessment</h2>
+
+<form asp-action="CreateAssessment" method="post" novalidate>
+    <input type="hidden" asp-for="AssignmentId" />
+
+    <div id="criteria-list" class="mb-3">
+        @for (int i = 0; i < Model.Criteria.Count; i++)
+        {
+            <div class="card mb-3 p-3 shadow-sm">
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-7">
+                        <label asp-for="Criteria[@i].CriterionName" class="form-label">Criterion Name</label>
+                        <input asp-for="Criteria[@i].CriterionName" class="form-control" placeholder="Enter criterion name" />
+                    </div>
+                    <div class="col-md-3">
+                        <label asp-for="Criteria[@i].MaxScore" class="form-label">Max Score</label>
+                        <input asp-for="Criteria[@i].MaxScore" type="number" min="1" class="form-control" placeholder="Max score" />
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="button" class="btn btn-outline-danger btn-sm w-100" onclick="removeCriterion(this)" title="Remove Criterion">
+                            Actions
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <button type="button" class="btn btn-outline-primary mb-4" onclick="addCriterion()">
+        <i class="fas fa-plus me-1"></i> Add Criterion
+    </button>
+    <br />
+    <button type="submit" class="btn btn-primary px-5">Create Assessment</button>
+</form>
+
+@section Scripts {
+    <script>
+        let index = @Model.Criteria.Count;
+
+        function addCriterion() {
+            const container = document.getElementById("criteria-list");
+
+            const div = document.createElement("div");
+            div.classList.add("card", "mb-3", "p-3", "shadow-sm");
+            div.innerHTML = `
+                <div class="row g-3 align-items-center">
+                    <div class="col-md-7">
+                        <label class="form-label" for="Criteria_${index}__CriterionName">Criterion Name</label>
+                        <input name="Criteria[${index}].CriterionName" class="form-control" placeholder="Enter criterion name" id="Criteria_${index}__CriterionName" />
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label" for="Criteria_${index}__MaxScore">Max Score</label>
+                        <input name="Criteria[${index}].MaxScore" type="number" min="1" class="form-control" placeholder="Max score" id="Criteria_${index}__MaxScore" />
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="button" class="btn btn-outline-danger btn-sm w-100" onclick="removeCriterion(this)" title="Remove Criterion">
+                            Remove
+                        </button>
+                    </div>
+                </div>
+            `;
+            container.appendChild(div);
+            index++;
+        }
+
+        function removeCriterion(button) {
+            const card = button.closest(".card");
+            card.remove();
+        }
+    </script>
+}

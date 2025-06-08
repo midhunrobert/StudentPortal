@@ -1,0 +1,104 @@
+﻿@model IEnumerable<StudentPortal.Models.DTOs.UserDto>
+
+@{
+    ViewData["Title"] = "Students by Batch";
+    var grouped = Model.GroupBy(s => s.Batch);
+}
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+<style>
+    .batch-card {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .batch-header {
+        background-color: #f8f9fa;
+        padding: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .student-table {
+        margin: 0;
+        border-top: 1px solid #dee2e6;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .rotate {
+        transform: rotate(90deg);
+        transition: transform 0.3s ease;
+    }
+
+    .rotate-down {
+        transform: rotate(0deg);
+        transition: transform 0.3s ease;
+    }
+</style>
+
+<div class="container mt-5">
+    <button type="button" class="btn btn-outline-light mb-3" onclick="history.back();">
+        &larr; Back
+    </button>
+    <h2 class="mb-4">Registered Students by Batch</h2>
+
+    @foreach (var batch in grouped)
+    {
+        var batchId = $"batch-{batch.Key}";
+        <div class="batch-card">
+            <div class="batch-header" onclick="toggleBatch('@batchId')">
+                <span>Batch: @batch.Key (@batch.Count() Students)</span>
+                <i id="@batchId-icon" class="fas fa-chevron-right rotate"></i>
+            </div>
+
+            <div id="@batchId" class="hidden">
+                <table class="table table-sm table-striped student-table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Date of Birth</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var student in batch)
+                        {
+                            <tr>
+                                <td>@student.Name</td>
+                                <td>@student.Email</td>
+                                <td>@student.Dob.ToShortDateString()</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        function toggleBatch(id) {
+            const section = document.getElementById(id);
+            const icon = document.getElementById(id + "-icon");
+            if (section.classList.contains("hidden")) {
+                section.classList.remove("hidden");
+                icon.classList.remove("rotate");
+                icon.classList.add("rotate-down");
+            } else {
+                section.classList.add("hidden");
+                icon.classList.remove("rotate-down");
+                icon.classList.add("rotate");
+            }
+        }
+    </script>
+}

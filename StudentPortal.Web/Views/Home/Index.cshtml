@@ -1,0 +1,107 @@
+﻿@{
+    ViewData["Title"] = "Welcome | Student Portal";
+}
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        background: linear-gradient(to right, rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://ad.aue.ae/wp-content/uploads/2023/06/DSC_3736-scaled2-1214x1536.jpg') no-repeat center center fixed;
+        background-size: cover;
+        font-family: 'Poppins', sans-serif;
+        min-height: 100vh;
+        margin: 0;
+        padding: 0;
+    }
+
+    .welcome-heading {
+        color: #fff;
+        font-weight: 600;
+        text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+    }
+
+    .lead {
+        color: #f0f0f0;
+    }
+
+    .card-link {
+        text-decoration: none;
+    }
+
+    .glass-card {
+        display: block;
+        text-align: center;
+        backdrop-filter: blur(15px);
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 25px;
+        box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+        color: #fff;
+        transition: all 0.4s ease-in-out;
+        position: relative;
+        overflow: hidden;
+        padding: 3rem 2rem;
+    }
+
+        .glass-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .glass-card::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            transform: rotate(25deg);
+            animation: shine 6s linear infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+    .card-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .glass-card h5 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+</style>
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 welcome-heading">AUE</h1>
+        <p class="lead">Login as Student or Faculty to continue</p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-4">
+            <a href="/Student/StudentLogin" class="card-link">
+                <div class="glass-card">
+                    <div class="card-content">
+                        <h5>🎓 Student</h5>
+                        <p>Login</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <a href="/Faculty/FacultyLogin" class="card-link">
+                <div class="glass-card">
+                    <div class="card-content">
+                        <h5>👩‍🏫 Faculty</h5>
+                        <p>Login</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

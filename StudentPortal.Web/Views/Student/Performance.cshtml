@@ -1,0 +1,97 @@
+﻿@model IEnumerable<StudentPortal.Models.DTOs.Student.PerformanceDto>
+
+@{
+    ViewData["Title"] = "My Performance";
+}
+
+<style>
+    .performance-table {
+        border-collapse: separate;
+        border-spacing: 0 12px;
+        width: 100%;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+        .performance-table thead tr {
+            background-color: #f5f7fa;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #495057;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .performance-table tbody tr {
+            background-color: #ffffff;
+            box-shadow: 0 1.5px 4px rgba(0,0,0,0.05);
+            transition: background-color 0.25s ease;
+            border-radius: 8px;
+        }
+
+            .performance-table tbody tr:hover {
+                background-color: #eef4ff;
+            }
+
+        .performance-table td, .performance-table th {
+            padding: 12px 18px;
+            vertical-align: middle;
+            text-align: center;
+            font-size: 0.95rem;
+            color: #343a40;
+        }
+
+            .performance-table td:first-child {
+                text-align: left;
+                font-weight: 600;
+                color: #2c3e50;
+            }
+
+    p.no-data {
+        font-style: italic;
+        color: #6c757d;
+        font-size: 1.05rem;
+        margin-top: 20px;
+    }
+</style>
+
+<div class="container mt-4">
+    <button type="button" class="btn btn-outline-light mb-3" onclick="history.back();">
+        &larr; Back
+    </button>
+    <h3 class="mb-3" style="font-weight:700; color:#2c3e50;">My Performance</h3>
+
+    @if (!Model.Any())
+    {
+        <p class="no-data">You have no scored submissions yet.</p>
+    }
+    else
+    {
+        <table class="performance-table">
+            <thead>
+                <tr>
+                    <th>Assignment</th>
+                    <th>Submission Date</th>
+                    <th>Score</th>
+                    <th>Max Score</th>
+                    <th>Percentage</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    var percentage = item.MaxScore > 0 ? (item.TotalScore * 100.0 / item.MaxScore) : 0;
+                    <tr>
+                        <td>@item.AssignmentTitle</td>
+                        <td>@item.SubmissionDate</td>
+                        <td>@item.TotalScore</td>
+                        <td>@item.MaxScore</td>
+                        <td>@percentage.ToString("F2") %</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

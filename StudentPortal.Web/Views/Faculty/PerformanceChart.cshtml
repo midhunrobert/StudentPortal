@@ -1,0 +1,114 @@
+﻿@model IEnumerable<StudentPortal.Models.DTOs.Faculty.StudentPerformanceDto>
+
+@{
+    ViewData["Title"] = "Student Performance Charts";
+    var studentNames = Model.Select(x => x.StudentName);
+    var scores = Model.Select(x => x.TotalScore);
+    var maxScores = Model.Select(x => x.MaxScore);
+}
+<button type="button" class="btn btn-outline-light mb-3" onclick="history.back();">
+    &larr; Back
+</button>
+<h3 class="text-center mb-4">Performance Charts</h3>
+
+
+
+<div class="container">
+    <div class="text-center mt-4">
+        <a asp-action="DownloadPerformanceExcel" asp-route-assignmentId="@Context.Request.Query["assignmentId"]"
+           class="btn btn-success">
+            Download Excel
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <h5 class="text-center">Line Chart</h5>
+            <canvas id="lineChart"></canvas>
+        </div>
+        <div class="col-md-6 mb-4">
+            <h5 class="text-center">Bar Chart</h5>
+            <canvas id="barChart"></canvas>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <h5 class="text-center">Pie Chart</h5>
+            <canvas id="pieChart"></canvas>
+        </div>
+        <div class="col-md-6 mb-4">
+            <h5 class="text-center">Doughnut Chart</h5>
+            <canvas id="doughnutChart"></canvas>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const labels = @Html.Raw(Json.Serialize(studentNames));
+        const scores = @Html.Raw(Json.Serialize(scores));
+        const maxScores = @Html.Raw(Json.Serialize(maxScores));
+
+        const backgroundColors = [
+            'rgba(255, 99, 132, 0.6)', 'rgba(54, 162, 235, 0.6)',
+            'rgba(255, 206, 86, 0.6)', 'rgba(75, 192, 192, 0.6)',
+            'rgba(153, 102, 255, 0.6)', 'rgba(255, 159, 64, 0.6)',
+            'rgba(199, 199, 199, 0.6)'
+        ];
+
+        // Line Chart
+        new Chart(document.getElementById('lineChart'), {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Total Score',
+                    data: scores,
+                    borderColor: 'blue',
+                    backgroundColor: 'rgba(0,0,255,0.1)',
+                    fill: true,
+                    tension: 0.2
+                }]
+            }
+        });
+
+        // Bar Chart
+        new Chart(document.getElementById('barChart'), {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Total Score',
+                    data: scores,
+                    backgroundColor: backgroundColors
+                }]
+            }
+        });
+
+        // Pie Chart
+        new Chart(document.getElementById('pieChart'), {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Score Distribution',
+                    data: scores,
+                    backgroundColor: backgroundColors
+                }]
+            }
+        });
+
+        // Doughnut Chart
+        new Chart(document.getElementById('doughnutChart'), {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Score Distribution',
+                    data: scores,
+                    backgroundColor: backgroundColors
+                }]
+            }
+        });
+    </script>
+}
