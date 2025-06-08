@@ -11,6 +11,7 @@ COPY StudentPortal.Data/*.csproj ./StudentPortal.Data/
 COPY StudentPortal.Business/*.csproj ./StudentPortal.Business/
 COPY StudentPortal.Models/*.csproj ./StudentPortal.Models/
 COPY StudentPortal.Web/*.csproj ./StudentPortal.Web/
+COPY StudentPortal.Tests/*.csproj ./StudentPortal.Tests/
 # (tests usually not needed in build container)
 
 # Restore dependencies for the whole solution
