@@ -1,29 +1,27 @@
+# Use the ASP.NET 8 runtime image as the base for the final container
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 80
 
+# Use the .NET 8 SDK image for building the app
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy solution and all project files for restore
-COPY *.sln ./
-COPY StudentPortal.Data/*.csproj ./StudentPortal.Data/
-COPY StudentPortal.Business/*.csproj ./StudentPortal.Business/
-COPY StudentPortal.Models/*.csproj ./StudentPortal.Models/
-COPY StudentPortal.Web/*.csproj ./StudentPortal.Web/
-COPY StudentPortal.Tests/*.csproj ./StudentPortal.Tests/
-# (tests usually not needed in build container)
-
-# Restore dependencies for the whole solution
-RUN dotnet restore
-
-# Copy everything else now
+# Copy the entire source code (all projects and solution) into the container
 COPY . .
 
-# Publish the Web project only
-RUN dotnet publish StudentPortal.Web/StudentPortal.Web.csproj -c Release -o /app/publish
+# Restore dependencies for the entire solution
+RUN dotnet restore StudentPortal.sln
 
+# Publish the Web project only, using Release configuration, output to /app/publish
+RUN dotnet publish StudentPortal.Web/StudentPortal.Web.csproj -c Release -o /app/publish /p:UseAppHost=false
+
+# Final stage: build runtime image
 FROM base AS final
 WORKDIR /app
+
+# Copy the published output from the build stage
 COPY --from=build /app/publish .
+
+# Set the startup command to run your web app
 ENTRYPOINT ["dotnet", "StudentPortal.Web.dll"]
